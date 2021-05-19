@@ -1,5 +1,6 @@
 package br.ufs.dcomp.ChatRabbitMQ;
 
+import com.google.protobuf.ByteString;
 import com.rabbitmq.client.*;
 
 import java.io.IOException;
@@ -11,9 +12,9 @@ public class Chat {
   public static void main(String[] argv) throws Exception {
     
       ConnectionFactory factory = new ConnectionFactory();
-      factory.setHost("100.26.213.242"); 
-      factory.setUsername("jonh");
-      factory.setPassword("12345"); 
+      factory.setHost("54.147.142.95"); 
+      factory.setUsername("cliente");
+      factory.setPassword("cliente"); 
       factory.setVirtualHost("/");
 
       
@@ -43,7 +44,7 @@ public class Chat {
       Consumer consumer = new DefaultConsumer(channel) { 
       public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
       System.out.println();
-      String message = new String(body, "UTF-8"); 
+      String message = format_msg.RecebeProto(body);
       System.out.println(message);
       System.out.print(destino + ">>>");
       }
@@ -90,10 +91,10 @@ public class Chat {
               }
               else{
                 String day_hour = data_hora.data_horaAtual();
-                String msg_padrao = format_msg.formatMSG(msg, day_hour, QUEUE_NAME);
+                byte[] msg_padrao = format_msg.formatMSG(" "," ", ByteString.copyFrom(msg.getBytes()), day_hour, QUEUE_NAME);
 
                 channel.queueDeclare(QUEUE_Send, false,   false,     false,       null);
-                channel.basicPublish(Exchange, QUEUE_Send, null, msg_padrao.getBytes("UTF-8"));
+                channel.basicPublish(Exchange, QUEUE_Send, null, msg_padrao);
               }
             }
 
