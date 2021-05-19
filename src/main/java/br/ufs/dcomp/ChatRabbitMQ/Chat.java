@@ -12,9 +12,9 @@ public class Chat {
   public static void main(String[] argv) throws Exception {
     
       ConnectionFactory factory = new ConnectionFactory();
-      factory.setHost("54.147.142.95"); 
-      factory.setUsername("cliente");
-      factory.setPassword("cliente"); 
+      factory.setHost("18.207.112.89"); 
+      factory.setUsername("jonh");
+      factory.setPassword("12345"); 
       factory.setVirtualHost("/");
 
       
@@ -28,6 +28,9 @@ public class Chat {
       String QUEUE_Send = "";
 
       String Exchange = "";
+
+      // contem as funcoes relacionadas aos comando do chat
+      Command command = new Command();
 
       // fornecera a data e a hora no formato requerido
       DataHora data_hora = new DataHora();
@@ -71,48 +74,42 @@ public class Chat {
         QUEUE_Send = "";
       }
 
-      else{ 
-        
-        if(msg_par[0].equals("!addGroup")){
-          channel.exchangeDeclare(msg_par[1], "fanout");
-          channel.queueBind(QUEUE_NAME, msg_par[1], "");
-        }
-        else
-        {
-          if(msg_par[0].equals("!addUser")){
-            channel.queueDeclare(msg_par[1],false,false, false, null);
-            channel.queueBind(msg_par[1], msg_par[2], "");
-          }else{
-            if (msg_par[0].equals("!delFromGroup")){
-              channel.exchangeUnbind(msg_par[1], msg_par[2], "");
-            } else{
-              if(msg_par[0].equals("!removeGroup")){
-                channel.exchangeDelete(msg_par[1]);
-              }
-              else{
-                String day_hour = data_hora.data_horaAtual();
-                byte[] msg_padrao = format_msg.formatMSG(" "," ", ByteString.copyFrom(msg.getBytes()), day_hour, QUEUE_NAME);
+      else {
 
+          switch(command.getNumber(msg_par[0])){
+            case 1: 
+                command.addGroup(channel, msg_par[1], QUEUE_NAME);
+                break;
+            case 2:
+                command.addUser(channel, msg_par[2], msg_par[1]);
+                break;
+            case 3:
+                command.delFromGroup(channel, msg_par[2], msg_par[1]);
+                break;
+            case 4:
+                command.removeGroup(channel, msg_par[1]);
+                break;
+            default:
+                String day_hour = data_hora.data_horaAtual();
+                byte[] msg_padrao = format_msg.formatMSG(QUEUE_NAME," ", ByteString.copyFrom(msg.getBytes()), day_hour, Exchange);
+  
                 channel.queueDeclare(QUEUE_Send, false,   false,     false,       null);
                 channel.basicPublish(Exchange, QUEUE_Send, null, msg_padrao);
-              }
-            }
-
           }
-        
-        
-        }
-        
+          
+              
+          }
+  
+        System.out.print(destino + ">>>");
+        msg = input.nextLine();
       }
        
-      System.out.print(destino + ">>>");
-      msg = input.nextLine();
+    channel.close();
+    connection.close();  
 
       
     }
 
-    channel.close();
-    connection.close();
+   
 
   }
-}
