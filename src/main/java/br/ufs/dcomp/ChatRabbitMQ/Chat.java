@@ -91,7 +91,7 @@ public class Chat {
                 break;
             default:
                 String day_hour = data_hora.data_horaAtual();
-                byte[] msg_padrao = format_msg.formatMSG(QUEUE_NAME," ", ByteString.copyFrom(msg.getBytes()), day_hour, Exchange);
+                byte[] msg_padrao = format_msg.formatMSG_send(QUEUE_NAME," ", ByteString.copyFrom(msg.getBytes()), day_hour, Exchange);
   
                 channel.queueDeclare(QUEUE_Send, false,   false,     false,       null);
                 channel.basicPublish(Exchange, QUEUE_Send, null, msg_padrao);
