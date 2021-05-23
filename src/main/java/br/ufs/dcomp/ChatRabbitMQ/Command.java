@@ -17,6 +17,7 @@ public class Command{
         comando.put("!addUser", 2);
         comando.put("!delFromGroup", 3);
         comando.put("!removeGroup", 4);
+        comando.put("!upload", 5);
 
     }
     
