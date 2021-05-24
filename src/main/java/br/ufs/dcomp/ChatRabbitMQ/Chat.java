@@ -134,14 +134,25 @@ public class Chat {
                 command.removeGroup(channel_file, exchange_file);
                 break;
             case 5:
-                String Exchange_file = Exchange + "_file";
-                String QUEUE_Send_file = QUEUE_Send + "_file";
+
+                if (Exchange.equals("")){
+                  System.out.println("grupo vazio");
+                  exchange_file = "";
+                  queue_file = QUEUE_Send + "_file";
+                } else{
+                  System.out.println("fila vazia");
+                  exchange_file = Exchange + "_file";
+                  queue_file = "";
+                }
+               
+                
                 String day_hour = data_hora.data_horaAtual();
                 
                 byte[] arquivo = arq.lerArquivo(msg_par[1]);
                 
-                Upload up = new Upload(channel_file, QUEUE_NAME, QUEUE_Send_file, day_hour, Exchange_file, arquivo);
-                up.start();
+                command.upload(channel_file, QUEUE_NAME, queue_file, day_hour, exchange_file, arquivo);
+                
+                break;
             
             // aqui vai a parte de formatacao que falta
                 // tambem tem que ver a parte de recebimento

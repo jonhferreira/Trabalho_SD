@@ -48,4 +48,10 @@ public class Command{
         }
     }
 
+    public void upload(Channel channel_file, String q_name, String q_send, String day, String grupo, byte[] arquivo){
+        
+        Upload up = new Upload(channel_file, q_name, q_send, day, grupo, arquivo);
+        up.start();
+    }
+
 }

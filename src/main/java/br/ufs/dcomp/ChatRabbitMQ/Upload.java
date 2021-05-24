@@ -13,18 +13,18 @@ public class Upload extends Thread {
     public byte[] arquivo;
 
     public Upload(Channel channel_file, String q_name, String q_send, String day, String grupo, byte[] arquivo) {
-        channel_file = channel_file;
+        this.channel_file = channel_file;
         this.QUEUE_NAME = q_name;
         this.QUEUE_SEND = q_send;
         this.Day_hour = day;
         this.Grupo = grupo;
-        arquivo = arquivo;
+        this.arquivo = arquivo;
     }
 
     public void run() {
         FormatMSG msg = new FormatMSG();
         
-        byte[] msg_padrao = msg.formatMSG_send(this.QUEUE_NAME, "", ByteString.copyFrom(arquivo), this.Day_hour, this.Grupo);
+        byte[] msg_padrao = msg.formatMSG_send(this.QUEUE_NAME, "", ByteString.copyFrom(this.arquivo), this.Day_hour, this.Grupo);
         try {
             channel_file.queueDeclare(this.QUEUE_SEND, false, false, false, null);
             channel_file.basicPublish(this.Grupo, this.QUEUE_SEND, null, msg_padrao);

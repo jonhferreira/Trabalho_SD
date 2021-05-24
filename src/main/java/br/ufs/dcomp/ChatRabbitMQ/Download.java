@@ -10,7 +10,7 @@ public class Download extends Thread{
     public byte[] body;
 
     public Download(Channel channel_file, String q_name, byte[] body) {
-        channel_file = channel_file;
+        this.channel_file = channel_file;
         this.QUEUE_NAME = q_name;    
         this.body = body; 
     }
