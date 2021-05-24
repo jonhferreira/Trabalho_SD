@@ -12,9 +12,9 @@ public class Chat {
   public static void main(String[] argv) throws Exception {
     
       ConnectionFactory factory = new ConnectionFactory();
-      factory.setHost("18.207.112.89"); 
-      factory.setUsername("jonh");
-      factory.setPassword("12345"); 
+      factory.setHost("54.160.181.50"); 
+      factory.setUsername("cliente");
+      factory.setPassword("cliente"); 
       factory.setVirtualHost("/");
 
       
@@ -60,67 +60,69 @@ public class Chat {
       // define fila para recebimento de arquivos
       String QUEUE_FILE = QUEUE_NAME+"_file";
       channel_file.queueDeclare(QUEUE_FILE, false, false, false, null); 
-
       
       
-    // definindo consumidores de mensagens e arquivos
-    Consumer consumer_msg = new DefaultConsumer(channel) { 
-      public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
-      System.out.println();
-      String message = format_msg.RecebeProto(body);
-      System.out.println(message);
-      System.out.print(destino + ">>>");
-      }
-    }; 
-
-    Consumer consumer_file = new DefaultConsumer(channel){
+      
+      // definindo consumidores de mensagens e arquivos
+      Consumer consumer_msg = new DefaultConsumer(channel_msg) { 
         public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
-        String file = body.toString();
-        System.out.println(file);
-        System.out.print(destino + ">>>");
-      }
-      };
-
+          System.out.println();
+          String message = format_msg.RecebeProto(body);
+          System.out.println(message);
+          System.out.print(destino + ">>>");
+        }
+      }; 
       
-    //(queue-name, autoAck, consumer); 
-    channel_msg.basicConsume(QUEUE_NAME,true, consumer_msg);
-    channel_file.basicConsume(QUEUE_NAME,true, consumer_file);
-    
-    System.out.print(">>>");
-    msg = input.nextLine();
-  
-    while (!msg.equals("exit")) {
-      String[] msg_par = msg.split(" ");
+      Consumer consumer_file = new DefaultConsumer(channel_file){
+        public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {    
+          Download File = new Download(channel_file, QUEUE_FILE, body);
+          File.start();
+          String file = "Salvo";
+          System.out.println(file);
+          System.out.print(destino + ">>>");
+        }
+      };
+      
+      
+      //(queue-name, autoAck, consumer); 
+      channel_msg.basicConsume(QUEUE_NAME,true, consumer_msg);
+      channel_file.basicConsume(QUEUE_NAME,true, consumer_file);
+      
+      System.out.print(">>>");
+      msg = input.nextLine();
+      
+      while (!msg.equals("exit")) {
+        String[] msg_par = msg.split(" ");
 
-      if (msg.subSequence(0, 1).equals("@")){
-        QUEUE_Send = msg;
-        destino = QUEUE_Send;
-        Exchange = "";
+        if (msg.subSequence(0, 1).equals("@")){
+          QUEUE_Send = msg;
+          destino = QUEUE_Send;
+          Exchange = "";
+          
+        }
         
-      }
-
-      else if(msg.subSequence(0, 1).equals("#")){
-        Exchange = msg.substring(1,msg.length());
-        destino = msg;
-        QUEUE_Send = "";
-      }
-
-      else {
-
+        else if(msg.subSequence(0, 1).equals("#")){
+          Exchange = msg.substring(1,msg.length());
+          destino = msg;
+          QUEUE_Send = "";
+        }
+        
+        else {
+          
           switch(command.getNumber(msg_par[0])){
             case 1: 
-                command.addGroup(channel_msg, msg_par[1], QUEUE_NAME);
+            command.addGroup(channel_msg, msg_par[1], QUEUE_NAME);
                 exchange_file = msg_par[1] + "_file";
                 command.addGroup(channel_file, exchange_file, QUEUE_FILE);
                 break;
-            case 2:
+                case 2:
                 command.addUser(channel_msg, msg_par[2], msg_par[1]);
                 queue_file = msg_par[1]+"_file";
                 exchange_file = msg_par[2] + "_file";
                 command.addUser(channel_file, exchange_file, queue_file);
                 
                 break;
-            case 3:
+                case 3:
                 command.delFromGroup(channel_msg, msg_par[2], msg_par[1]);
                 queue_file = msg_par[1]+"_file";
                 exchange_file = msg_par[2] + "_file";
@@ -134,31 +136,35 @@ public class Chat {
             case 5:
                 String Exchange_file = Exchange + "_file";
                 String QUEUE_Send_file = QUEUE_Send + "_file";
+                String day_hour = data_hora.data_horaAtual();
                 
                 byte[] arquivo = arq.lerArquivo(msg_par[1]);
-
-                // aqui vai a parte de formatacao que falta
+                
+                Upload up = new Upload(channel_file, QUEUE_NAME, QUEUE_Send_file, day_hour, Exchange_file, arquivo);
+                up.start();
+            
+            // aqui vai a parte de formatacao que falta
                 // tambem tem que ver a parte de recebimento
-
+                
             default:
-                String day_hour = data_hora.data_horaAtual();
-                byte[] msg_padrao = format_msg.formatMSG(QUEUE_NAME," ", ByteString.copyFrom(msg.getBytes()), day_hour, Exchange);
-  
+                String day_hour2 = data_hora.data_horaAtual();
+                byte[] msg_padrao = format_msg.formatMSG_send(QUEUE_NAME," ", ByteString.copyFrom(msg.getBytes()), day_hour2, Exchange);
+                
                 channel_msg.queueDeclare(QUEUE_Send, false,   false,     false,       null);
                 channel_msg.basicPublish(Exchange, QUEUE_Send, null, msg_padrao);
           }
           
-              
-          }
-  
+          
+        }
+        
         System.out.print(destino + ">>>");
         msg = input.nextLine();
       }
-       
-    channel_msg.close();
-    channel_file.close();
-    connection.close();  
-
+      
+      channel_msg.close();
+      channel_file.close();
+      connection.close();  
+      
       
     }
 
