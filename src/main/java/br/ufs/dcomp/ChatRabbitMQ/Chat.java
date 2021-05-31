@@ -12,9 +12,9 @@ public class Chat {
   public static void main(String[] argv) throws Exception {
     
       ConnectionFactory factory = new ConnectionFactory();
-      factory.setHost("54.160.181.50"); 
-      factory.setUsername("cliente");
-      factory.setPassword("cliente"); 
+      factory.setHost("52.3.255.23"); 
+      factory.setUsername("jonh");
+      factory.setPassword("12345"); 
       factory.setVirtualHost("/");
 
       
@@ -75,10 +75,11 @@ public class Chat {
       
       Consumer consumer_file = new DefaultConsumer(channel_file){
         public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {    
-          Download File = new Download(channel_file, QUEUE_FILE, body);
-          File.start();
-          String file = "Salvo";
-          System.out.println(file);
+          byte[] arquivo_rec = format_msg.RecebeProtoFile(body);
+          Download file = new Download(channel_file, QUEUE_FILE, arquivo_rec);
+          file.start();
+          
+          System.out.println("Salvo");
           System.out.print(destino + ">>>");
         }
       };
@@ -86,7 +87,7 @@ public class Chat {
       
       //(queue-name, autoAck, consumer); 
       channel_msg.basicConsume(QUEUE_NAME,true, consumer_msg);
-      channel_file.basicConsume(QUEUE_NAME,true, consumer_file);
+      channel_file.basicConsume(QUEUE_FILE,true, consumer_file);
       
       System.out.print(">>>");
       msg = input.nextLine();
@@ -115,14 +116,14 @@ public class Chat {
                 exchange_file = msg_par[1] + "_file";
                 command.addGroup(channel_file, exchange_file, QUEUE_FILE);
                 break;
-                case 2:
+            case 2:
                 command.addUser(channel_msg, msg_par[2], msg_par[1]);
                 queue_file = msg_par[1]+"_file";
                 exchange_file = msg_par[2] + "_file";
                 command.addUser(channel_file, exchange_file, queue_file);
                 
                 break;
-                case 3:
+            case 3:
                 command.delFromGroup(channel_msg, msg_par[2], msg_par[1]);
                 queue_file = msg_par[1]+"_file";
                 exchange_file = msg_par[2] + "_file";

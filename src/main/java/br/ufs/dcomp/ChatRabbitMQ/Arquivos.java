@@ -17,6 +17,7 @@ public class Arquivos {
             byte[] buffer;
             buffer = arquivo.readAllBytes();
             arquivo.close();
+            
             return buffer;
         } catch (IOException e) {
             return "erro!".getBytes();

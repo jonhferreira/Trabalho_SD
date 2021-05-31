@@ -28,7 +28,6 @@ public class Upload extends Thread {
         try {
             channel_file.queueDeclare(this.QUEUE_SEND, false, false, false, null);
             channel_file.basicPublish(this.Grupo, this.QUEUE_SEND, null, msg_padrao);
-
         } catch (Exception  e) {
             System.err.println(e);
         }

@@ -11,6 +11,7 @@ public class FormatMSG {
     public byte[] formatMSG_send(String emissor, String tipo, ByteString msg, String day_hour, String grupo){
         // String resul = day_hour +" "+ user.subSequence(1,user.length()) + " diz: " + msg; 
         // return resul;
+
         MensagemProto.Conteudo.Builder conteudo = MensagemProto.Conteudo.newBuilder();
         conteudo.setTipo(tipo);
         conteudo.setCorpo(msg);
@@ -23,7 +24,7 @@ public class FormatMSG {
 
         MensagemProto.Mensagem Msg = MsgBiulder.build();
         byte[] buffer = Msg.toByteArray();
-
+        
         return buffer;
     }
 
@@ -37,6 +38,21 @@ public class FormatMSG {
             System.err.println(e);
         }
         return "Deu erro";
+    }
+
+    public byte[] RecebeProtoFile(byte[] buffer){
+        
+        try{
+            MensagemProto.Mensagem Msg_file = MensagemProto.Mensagem.parseFrom(buffer);
+       
+            MensagemProto.Conteudo conteudo_file = Msg_file.getConteudo();
+
+            byte[] arquivo_rec = conteudo_file.getCorpo().toByteArray();
+            
+            return arquivo_rec;
+        }catch(Exception e){
+            return "erro de download".getBytes();
+        }
     }
 
     public String formatMSG_receive(MensagemProto.Mensagem Msg) throws UnsupportedEncodingException{
@@ -56,4 +72,6 @@ public class FormatMSG {
     
         return resul;
     }
+
+
 }
