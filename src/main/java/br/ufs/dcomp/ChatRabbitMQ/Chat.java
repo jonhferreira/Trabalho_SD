@@ -12,7 +12,7 @@ public class Chat {
   public static void main(String[] argv) throws Exception {
     
       ConnectionFactory factory = new ConnectionFactory();
-      factory.setHost("52.3.255.23"); 
+      factory.setHost("34.224.5.176"); 
       factory.setUsername("jonh");
       factory.setPassword("12345"); 
       factory.setVirtualHost("/");
@@ -37,10 +37,6 @@ public class Chat {
       String Exchange = "";
       String exchange_file = "";
 
-      // utilizada para manipulacao de arquivos
-      Arquivos arq = new Arquivos();
-      
-
       // contem as funcoes relacionadas aos comando do chat
       Command command = new Command();
 
@@ -48,6 +44,9 @@ public class Chat {
       DataHora data_hora = new DataHora();
       // formata a mensagem para envio
       FormatMSG format_msg = new FormatMSG();
+
+      // responsabel por receber os pacotes e formatar
+      ReceberProto proto = new ReceberProto();
       
       // define fila para recebimento de mensagens
       System.out.print("usuario: "); 
@@ -67,7 +66,7 @@ public class Chat {
       Consumer consumer_msg = new DefaultConsumer(channel_msg) { 
         public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
           System.out.println();
-          String message = format_msg.RecebeProto(body);
+          String message = proto.RecebeProto(body);
           System.out.println(message);
           System.out.print(destino + ">>>");
         }
@@ -75,11 +74,7 @@ public class Chat {
       
       Consumer consumer_file = new DefaultConsumer(channel_file){
         public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {    
-          byte[] arquivo_rec = format_msg.RecebeProtoFile(body);
-          Download file = new Download(channel_file, QUEUE_FILE, arquivo_rec);
-          file.start();
-          
-          System.out.println("Salvo");
+          proto.RecebeProtoFile(body);
           System.out.print(destino + ">>>");
         }
       };
@@ -137,19 +132,16 @@ public class Chat {
             case 5:
 
                 if (Exchange.equals("")){
-                  System.out.println("grupo vazio");
                   exchange_file = "";
                   queue_file = QUEUE_Send + "_file";
                 } else{
-                  System.out.println("fila vazia");
                   exchange_file = Exchange + "_file";
                   queue_file = "";
                 }
                
                 
                 String day_hour = data_hora.data_horaAtual();
-                
-                byte[] arquivo = arq.lerArquivo(msg_par[1]);
+                String arquivo = msg_par[1];
                 
                 command.upload(channel_file, QUEUE_NAME, queue_file, day_hour, exchange_file, arquivo);
                 

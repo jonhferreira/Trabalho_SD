@@ -28,32 +28,7 @@ public class FormatMSG {
         return buffer;
     }
 
-    public String RecebeProto(byte[] buffer) {
-        try {
-            MensagemProto.Mensagem Msg = MensagemProto.Mensagem.parseFrom(buffer);
-            
-            String msg_recebida = formatMSG_receive(Msg);
-            return msg_recebida;
-        } catch (Exception e) {
-            System.err.println(e);
-        }
-        return "Deu erro";
-    }
-
-    public byte[] RecebeProtoFile(byte[] buffer){
-        
-        try{
-            MensagemProto.Mensagem Msg_file = MensagemProto.Mensagem.parseFrom(buffer);
-       
-            MensagemProto.Conteudo conteudo_file = Msg_file.getConteudo();
-
-            byte[] arquivo_rec = conteudo_file.getCorpo().toByteArray();
-            
-            return arquivo_rec;
-        }catch(Exception e){
-            return "erro de download".getBytes();
-        }
-    }
+    
 
     public String formatMSG_receive(MensagemProto.Mensagem Msg) throws UnsupportedEncodingException{
         String day_hour = Msg.getDatahora();
@@ -70,6 +45,18 @@ public class FormatMSG {
 
         String resul = day_hour +" "+ user +"#"+ grupo + " diz: " + msg; 
     
+        return resul;
+    }
+
+
+    public String formatFILE_receive(MensagemProto.Mensagem Msg_file){
+        String day_hour = Msg_file.getDatahora();
+        String grupo = Msg_file.getGrupo();
+            
+        String user = Msg_file.getEmissor();
+
+        String resul = day_hour+" Arquivo " + "recebido de "  + user +"#"+ grupo; 
+        
         return resul;
     }
 

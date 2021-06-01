@@ -1,5 +1,6 @@
 package br.ufs.dcomp.ChatRabbitMQ;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -9,7 +10,10 @@ import com.rabbitmq.client.*;
 
 public class Command{
 
+
     private Map<String,Integer> comando = new HashMap<String,Integer>();
+    // utilizada para manipulacao de arquivos
+    private Arquivos arq = new Arquivos();
     
     public Command(){
     
@@ -48,9 +52,8 @@ public class Command{
         }
     }
 
-    public void upload(Channel channel_file, String q_name, String q_send, String day, String grupo, byte[] arquivo){
-        
-        Upload up = new Upload(channel_file, q_name, q_send, day, grupo, arquivo);
+    public void upload(Channel channel_file, String q_name, String q_send, String day, String grupo, String caminho_arq) throws FileNotFoundException{
+        Upload up = new Upload(channel_file, q_name, q_send, day, grupo, caminho_arq);
         up.start();
     }
 
