@@ -6,13 +6,14 @@ import com.rabbitmq.client.*;
 import java.io.IOException;
 import java.util.Scanner;
 
+
 public class Chat {
   
   public static String destino = "";
   public static void main(String[] argv) throws Exception {
     
       ConnectionFactory factory = new ConnectionFactory();
-      factory.setHost("34.224.5.176"); 
+      factory.setHost("3.234.44.145"); 
       factory.setUsername("jonh");
       factory.setPassword("12345"); 
       factory.setVirtualHost("/");
