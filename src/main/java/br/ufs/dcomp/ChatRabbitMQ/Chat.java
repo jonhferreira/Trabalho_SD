@@ -2,9 +2,9 @@ package br.ufs.dcomp.ChatRabbitMQ;
 
 import com.google.protobuf.ByteString;
 import com.rabbitmq.client.*;
-
 import java.io.IOException;
 import java.util.Scanner;
+
 
 
 public class Chat {
@@ -127,7 +127,7 @@ public class Chat {
                 break;
             case 4:
                 command.removeGroup(channel_msg, msg_par[1]);
-                exchange_file = msg_par[2] + "_file";
+                exchange_file = msg_par[1] + "_file";
                 command.removeGroup(channel_file, exchange_file);
                 break;
             case 5:
@@ -148,9 +148,10 @@ public class Chat {
                 
                 break;
             
-            // aqui vai a parte de formatacao que falta
-                // tambem tem que ver a parte de recebimento
-                
+            case 6:
+                String membros = command.listUsers(msg_par[1]);
+                System.out.println(membros);
+                break;
             default:
                 String day_hour2 = data_hora.data_horaAtual();
                 byte[] msg_padrao = format_msg.formatMSG_send(QUEUE_NAME," ", ByteString.copyFrom(msg.getBytes()), day_hour2, Exchange);

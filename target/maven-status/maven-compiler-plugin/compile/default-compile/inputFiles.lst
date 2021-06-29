@@ -1,8 +1,9 @@
-/home/jonh/Área de Trabalho/6º Periodo/Sistemas Distribuidos/chat-rabbit-compartilhado/Trabalho_SD/src/main/java/br/ufs/dcomp/ChatRabbitMQ/FormatMSG.java
-/home/jonh/Área de Trabalho/6º Periodo/Sistemas Distribuidos/chat-rabbit-compartilhado/Trabalho_SD/src/main/java/br/ufs/dcomp/ChatRabbitMQ/Command.java
-/home/jonh/Área de Trabalho/6º Periodo/Sistemas Distribuidos/chat-rabbit-compartilhado/Trabalho_SD/src/main/java/br/ufs/dcomp/ChatRabbitMQ/MensagemProto.java
-/home/jonh/Área de Trabalho/6º Periodo/Sistemas Distribuidos/chat-rabbit-compartilhado/Trabalho_SD/src/main/java/br/ufs/dcomp/ChatRabbitMQ/Arquivos.java
-/home/jonh/Área de Trabalho/6º Periodo/Sistemas Distribuidos/chat-rabbit-compartilhado/Trabalho_SD/src/main/java/br/ufs/dcomp/ChatRabbitMQ/Download.java
-/home/jonh/Área de Trabalho/6º Periodo/Sistemas Distribuidos/chat-rabbit-compartilhado/Trabalho_SD/src/main/java/br/ufs/dcomp/ChatRabbitMQ/Chat.java
-/home/jonh/Área de Trabalho/6º Periodo/Sistemas Distribuidos/chat-rabbit-compartilhado/Trabalho_SD/src/main/java/br/ufs/dcomp/ChatRabbitMQ/DataHora.java
-/home/jonh/Área de Trabalho/6º Periodo/Sistemas Distribuidos/chat-rabbit-compartilhado/Trabalho_SD/src/main/java/br/ufs/dcomp/ChatRabbitMQ/Upload.java
+/home/jonh/Área de Trabalho/6º Periodo/Sistemas Distribuidos/chat-rabbit/chat-em-linha-de-comando-via-rabbitmq-jonhferreira/src/main/java/br/ufs/dcomp/ChatRabbitMQ/Command.java
+/home/jonh/Área de Trabalho/6º Periodo/Sistemas Distribuidos/chat-rabbit/chat-em-linha-de-comando-via-rabbitmq-jonhferreira/src/main/java/br/ufs/dcomp/ChatRabbitMQ/Upload.java
+/home/jonh/Área de Trabalho/6º Periodo/Sistemas Distribuidos/chat-rabbit/chat-em-linha-de-comando-via-rabbitmq-jonhferreira/src/main/java/br/ufs/dcomp/ChatRabbitMQ/MensagemProto.java
+/home/jonh/Área de Trabalho/6º Periodo/Sistemas Distribuidos/chat-rabbit/chat-em-linha-de-comando-via-rabbitmq-jonhferreira/src/main/java/br/ufs/dcomp/ChatRabbitMQ/DataHora.java
+/home/jonh/Área de Trabalho/6º Periodo/Sistemas Distribuidos/chat-rabbit/chat-em-linha-de-comando-via-rabbitmq-jonhferreira/src/main/java/br/ufs/dcomp/ChatRabbitMQ/FormatMSG.java
+/home/jonh/Área de Trabalho/6º Periodo/Sistemas Distribuidos/chat-rabbit/chat-em-linha-de-comando-via-rabbitmq-jonhferreira/src/main/java/br/ufs/dcomp/ChatRabbitMQ/Chat.java
+/home/jonh/Área de Trabalho/6º Periodo/Sistemas Distribuidos/chat-rabbit/chat-em-linha-de-comando-via-rabbitmq-jonhferreira/src/main/java/br/ufs/dcomp/ChatRabbitMQ/Arquivos.java
+/home/jonh/Área de Trabalho/6º Periodo/Sistemas Distribuidos/chat-rabbit/chat-em-linha-de-comando-via-rabbitmq-jonhferreira/src/main/java/br/ufs/dcomp/ChatRabbitMQ/Download.java
+/home/jonh/Área de Trabalho/6º Periodo/Sistemas Distribuidos/chat-rabbit/chat-em-linha-de-comando-via-rabbitmq-jonhferreira/src/main/java/br/ufs/dcomp/ChatRabbitMQ/ReceberProto.java
