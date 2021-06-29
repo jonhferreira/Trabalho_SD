@@ -89,4 +89,38 @@ public class Command{
         
     }
 
+    public String listGroups(String user){
+        try{
+            // requisicao
+            RequestWeb req = new RequestWeb();
+            String rota = "/api/bindings/%2f";
+            String json_res = req.getJason(rota);
+
+            Gson gson = new Gson();
+            Bindings[] list_groups = gson.fromJson(json_res, Bindings[].class);
+
+            String lista = "";
+            int tam = list_groups.length;
+
+            String source;
+            String dest;
+
+            for(int i = 0; i < tam ;i++){
+                source = list_groups[i].source;
+                dest = list_groups[i].destination;
+
+                if (dest.equals(user) && !source.isEmpty()){
+                    lista = lista + " " + source + ","; 
+                }
+            }
+
+        
+            // uso subString pra eliminar a ultima virgula
+            return lista.substring(0, lista.length()-1);
+            } catch(Exception e){
+                return " ";
+            }
+
+    }
+
 }

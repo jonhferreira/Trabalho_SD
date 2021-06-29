@@ -14,6 +14,7 @@ br/ufs/dcomp/ChatRabbitMQ/MensagemProto$Conteudo$Builder.class
 br/ufs/dcomp/ChatRabbitMQ/MensagemProto$Mensagem$1.class
 br/ufs/dcomp/ChatRabbitMQ/Chat$1.class
 br/ufs/dcomp/ChatRabbitMQ/MensagemProto$ConteudoOrBuilder.class
+br/ufs/dcomp/ChatRabbitMQ/Bindings.class
 br/ufs/dcomp/ChatRabbitMQ/ReceberProto.class
 br/ufs/dcomp/ChatRabbitMQ/MensagemProto$1.class
 br/ufs/dcomp/ChatRabbitMQ/RequestWeb.class

@@ -152,6 +152,10 @@ public class Chat {
                 String membros = command.listUsers(msg_par[1]);
                 System.out.println(membros);
                 break;
+            case 7:
+                String grupos = command.listGroups(QUEUE_NAME);
+                System.out.println(grupos);
+                break;
             default:
                 String day_hour2 = data_hora.data_horaAtual();
                 byte[] msg_padrao = format_msg.formatMSG_send(QUEUE_NAME," ", ByteString.copyFrom(msg.getBytes()), day_hour2, Exchange);
