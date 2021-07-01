@@ -13,6 +13,7 @@ public class Upload extends Thread {
     
     public String QUEUE_NAME;
     public String QUEUE_SEND;
+    public String USER_Send;
     public String Day_hour;
     public String Grupo;
     public Channel channel_file;
@@ -27,14 +28,19 @@ public class Upload extends Thread {
         this.Day_hour = day;
         this.Grupo = grupo;
         this.cam_arquivo = arquivo;
+
+        int lim = this.QUEUE_SEND.length()-5;
+        this.USER_Send = this.QUEUE_SEND.substring(0, lim);
         
-        this.msg_text_inicial = "Enviando "+ this.cam_arquivo + " para " + this.QUEUE_SEND + "#" + grupo;
-        this.msg_text_final = "Arquivo " + this.cam_arquivo + "foi enviado para " +this.QUEUE_SEND + "#" + grupo;
+        this.msg_text_inicial = "Enviando "+ this.cam_arquivo + " para " + this.USER_Send + "#" + grupo;
+        this.msg_text_final = "Arquivo " + this.cam_arquivo + " foi enviado para " +this.USER_Send + "#" + grupo;
     }
 
     public void run() {
         System.out.println();
         System.out.println(this.msg_text_inicial);
+        // exibe o prompt durante o envio
+        System.out.println(this.USER_Send+">>>");
         FormatMSG msg = new FormatMSG();
         Arquivos arq = new Arquivos();
         byte[] arquivo;
@@ -53,6 +59,7 @@ public class Upload extends Thread {
             
             System.out.println();
             System.out.println(this.msg_text_final);
+            System.out.print(">>>");
         } catch (Exception e) {
             System.out.println("Erro!");
         }

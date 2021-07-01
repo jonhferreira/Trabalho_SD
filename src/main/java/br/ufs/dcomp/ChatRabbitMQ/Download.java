@@ -23,6 +23,7 @@ public class Download extends Thread{
             nome_arq = nome_arq.replace("/",".");
             arq.gravarArquivo(this.arquivo,nome_arq);
             System.out.println(this.msg);
+            System.out.print(">>>");
             
         }catch(Exception e){
             System.out.println("erro ao baixar arquivo");
